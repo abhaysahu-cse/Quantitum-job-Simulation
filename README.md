@@ -36,7 +36,10 @@ Then open your browser to `http://127.0.0.1:8050`
 
 ## Project Structure
 
-- `app.py` - Main Dash application file
+- `app.py` - Main Dash visualisation application
+- `process.py` - Data processing script (filters Pink Morsel data and computes sales)
+- `data/` - Raw CSV files (3 files with transaction data)
+- `output/` - Processed data (`processed_sales.csv`)
 - `requirements.txt` - Python dependencies
 - `venv/` - Virtual environment (not tracked in git)
 
@@ -53,8 +56,30 @@ The app runs in debug mode by default, which enables:
 - Detailed error messages
 - Dev tools in the browser
 
-## Next Steps
+## Data Processing
 
-1. Add your data files to the project
-2. Update `app.py` with your visualizations
-3. Build interactive components using Dash callbacks
+To regenerate the processed output from raw data:
+
+```bash
+python process.py
+```
+
+This reads the three raw CSV files from `data/`, filters for Pink Morsel only, computes `sales = quantity × price`, and writes `output/processed_sales.csv` with columns: `sales`, `date`, `region`.
+
+## Visualisation Features
+
+- Line chart of daily Pink Morsel sales over time (Feb 2018 – Feb 2022)
+- Dashed red vertical line marking the **price increase on 15 Jan 2021**
+- Region filter (All / North / South / East / West)
+- Hover tooltips with exact date and sales value
+
+## Business Question Answered
+
+> "Were sales higher before or after the Pink Morsel price increase on 15 January 2021?"
+
+| Period | Total Sales |
+|--------|------------|
+| Before 15 Jan 2021 | $7,092,843 |
+| After 15 Jan 2021  | $3,552,740 |
+
+Sales were significantly higher **before** the price increase.
